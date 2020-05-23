@@ -1,0 +1,19 @@
+{
+  "name": "gumtree-search",
+  "version": "1.0.0",
+  "description": "Adds extra functionality for finding interesting things on Gumtree",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/davelush/gumtree-search.git"
+  },
+  "author": "Dave Lush",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/davelush/gumtree-search/issues"
+  },
+  "homepage": "https://github.com/davelush/gumtree-search#readme"
+}
