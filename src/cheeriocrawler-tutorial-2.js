@@ -10,6 +10,7 @@ Apify.main(async () => {
     ];
 
     // there is a bug here on node 13+ https://github.com/apify/apify-js/issues/735
+    // push
     const requestList = await Apify.openRequestList('categories', sources);
     const requestQueue = await Apify.openRequestQueue();
 
