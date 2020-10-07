@@ -3,11 +3,14 @@ const Apify = require('apify');
 // TODO me next https://sdk.apify.com/docs/guides/getting-started#scraping-data
 
 Apify.main(async () => {
-    const sources = [
-        'https://apify.com/store?category=TRAVEL',
-        'https://apify.com/store?category=ECOMMERCE',
-        'https://apify.com/store?category=ENTERTAINMENT',
-    ];
+    const input = await Apify.getInput();
+
+    const sources = input.map(category => ({
+        url: `https://apify.com/store?category=${category}`,
+        userData: {
+            label: 'CATEGORY',
+        },
+    }));
 
     // there is a bug here on node 13+ https://github.com/apify/apify-js/issues/735
     const requestList = await Apify.openRequestList('categories', sources);
@@ -42,7 +45,7 @@ Apify.main(async () => {
                     )
                 };
 
-                console.log('RESULTS', results);
+                await Apify.pushData(results)
             }
 
             // Only enqueue new links from the category pages.
