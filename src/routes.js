@@ -1,10 +1,10 @@
 // routes.js
 const Apify = require('apify');
 const {
-    utils: {log},
+    utils: { log },
 } = Apify;
 
-exports.CATEGORY = async({$, request}, {requestQueue}) => {
+exports.CATEGORY = async ({ $, request }, { requestQueue }) => {
     return Apify.utils.enqueueLinks({
         $,
         requestQueue,
@@ -13,14 +13,14 @@ exports.CATEGORY = async({$, request}, {requestQueue}) => {
         transformRequestFunction: req => {
             req.userData.label = 'DETAIL';
             return req;
-        }
-    })
+        },
+    });
 };
 
-exports.DETAIL = async({$, request}) => {
+exports.DETAIL = async ({ $, request }) => {
     const urlArr = request.url.split('/').slice(-2);
 
-    log.debug('Scraping results');
+    log.debug('Scraping results.');
     const results = {
         url: request.url,
         uniqueIdentifier: urlArr.join('/'),
@@ -31,16 +31,16 @@ exports.DETAIL = async({$, request}) => {
             Number(
                 $('time')
                     .eq(1)
-                    .attr('datetime')
+                    .attr('datetime'),
             ),
         ),
         runCount: Number(
             $('ul.stats li:nth-of-type(3)')
                 .text()
-                .match(/\+d/)[0],
-        )
+                .match(/\d+/)[0],
+        ),
     };
 
-    log.debug('Push data to to dataset');
+    log.debug('Pushing data to dataset.');
     await Apify.pushData(results);
 };
