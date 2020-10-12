@@ -8,12 +8,13 @@ const {
 exports.getSources = async () => {
     log.debug('Getting sources.');
     const input = await Apify.getInput();
-    return input.map(category => ({
+    const output = input.map(category => ({
         url: `https://apify.com/store?category=${category}`,
         userData: {
             label: 'CATEGORY',
         },
     }));
+    return output;
 };
 
 exports.createRouter = globalContext => {

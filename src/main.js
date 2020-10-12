@@ -7,7 +7,8 @@ const {
 
 Apify.main(async () => {
     log.info('Starting actor.');
-    const requestList = await Apify.openRequestList('categories', await tools.getSources());
+    const sources = await tools.getSources();
+    const requestList = await Apify.openRequestList('categories', sources);
     const requestQueue = await Apify.openRequestQueue();
     const router = tools.createRouter({ requestQueue });
 
