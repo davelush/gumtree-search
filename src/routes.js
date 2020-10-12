@@ -44,3 +44,11 @@ exports.DETAIL = async ({ $, request }) => {
     log.debug('Pushing data to dataset.');
     await Apify.pushData(results);
 };
+
+exports.POSTCODE = async({ response, body, $, request }) => {
+    // console.log(body);
+    // await Apify.pushData(body)
+    const listings = $('li[class=natural]').html();
+    console.log(listings);
+
+}

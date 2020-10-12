@@ -8,7 +8,7 @@ const {
 Apify.main(async () => {
     log.info('Starting actor.');
     const sources = await tools.getSources();
-    const requestList = await Apify.openRequestList('categories', sources);
+    const requestList = await Apify.openRequestList('postcodes', sources);
     const requestQueue = await Apify.openRequestQueue();
     const router = tools.createRouter({ requestQueue });
 

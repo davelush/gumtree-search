@@ -8,10 +8,10 @@ const {
 exports.getSources = async () => {
     log.debug('Getting sources.');
     const input = await Apify.getInput();
-    const output = input.map(category => ({
-        url: `https://apify.com/store?category=${category}`,
+    const output = input.map(postcode => ({
+        url: `https://www.gumtree.com/search?search_category=for-sale&search_location=${postcode}&distance=10`,
         userData: {
-            label: 'CATEGORY',
+            label: 'POSTCODE',
         },
     }));
     return output;
