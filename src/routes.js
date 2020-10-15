@@ -4,51 +4,42 @@ const {
     utils: { log },
 } = Apify;
 
-exports.CATEGORY = async ({ $, request }, { requestQueue }) => {
-    return Apify.utils.enqueueLinks({
-        $,
-        requestQueue,
-        selector: 'div.item > a',
-        baseUrl: request.loadedUrl,
-        transformRequestFunction: req => {
-            req.userData.label = 'DETAIL';
-            return req;
-        },
-    });
-};
+exports.SEARCHPAGE = async({ response, body, $, request }, { requestQueue }) => {
+    const pageContent = $('*');
+    if (pageContent.length === 5) {
+        log.error("pain");
+    } else {
+        log.debug("processing a search page");
 
-exports.DETAIL = async ({ $, request }) => {
-    const urlArr = request.url.split('/').slice(-2);
+        await Apify.utils.enqueueLinks({
+            $,
+            requestQueue,
+            selector: 'li[class=natural] > article > a[href]',
+            baseUrl: request.loadedUrl,
+            transformRequestFunction: req => {
+                req.userData.label = 'LISTING';
+                return req;
+            },
+        });
 
-    log.debug('Scraping results.');
-    const results = {
-        url: request.url,
-        uniqueIdentifier: urlArr.join('/'),
-        owner: urlArr[0],
-        title: $('header h1').text(),
-        description: $('header p[class^=Text__Paragraph]').text(),
-        lastRunDate: new Date(
-            Number(
-                $('time')
-                    .eq(1)
-                    .attr('datetime'),
-            ),
-        ),
-        runCount: Number(
-            $('ul.stats li:nth-of-type(3)')
-                .text()
-                .match(/\d+/)[0],
-        ),
+        await Apify.utils.enqueueLinks({
+            $,
+            requestQueue,
+            selector: 'li[class=pagination-page] > a[href]',
+            baseUrl: request.loadedUrl,
+            transformRequestFunction: req => {
+                req.userData.label = 'SEARCHPAGE';
+                return req;
+            },
+        });
     };
-
-    log.debug('Pushing data to dataset.');
-    await Apify.pushData(results);
 };
 
-exports.POSTCODE = async({ response, body, $, request }) => {
-    // console.log(body);
-    // await Apify.pushData(body)
-    const listings = $('li[class=natural]').html();
-    console.log(listings);
-
-}
+exports.LISTING = async({ response, body, $, request }) => {
+    const pageContent = $('*');
+    if (pageContent.length === 5) {
+        log.error("pain");
+    } else {
+        log.debug("processing a listings page");
+    };
+};
