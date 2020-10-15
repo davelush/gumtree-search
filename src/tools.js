@@ -11,7 +11,7 @@ exports.getSources = async () => {
     const output = input.map(postcode => ({
         url: `https://www.gumtree.com/search?search_category=for-sale&search_location=${postcode}&distance=10`,
         userData: {
-            label: 'POSTCODE',
+            label: 'SEARCHPAGE',
         },
     }));
     return output;
