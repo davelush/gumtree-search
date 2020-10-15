@@ -7,7 +7,7 @@ const {
 exports.SEARCHPAGE = async({ response, body, $, request }, { requestQueue }) => {
     const pageContent = $('*');
     if (pageContent.length === 5) {
-        log.error("pain");
+        log.error("IDENTIFIED AS A CRAWLER");
     } else {
         log.debug("processing a search page");
 
@@ -32,14 +32,14 @@ exports.SEARCHPAGE = async({ response, body, $, request }, { requestQueue }) => 
                 return req;
             },
         });
-    };
+    }
 };
 
 exports.LISTING = async({ response, body, $, request }) => {
     const pageContent = $('*');
     if (pageContent.length === 5) {
-        log.error("pain");
+        log.error("IDENTIFIED AS A CRAWLER");
     } else {
         log.debug("processing a listings page");
-    };
+    }
 };
